@@ -3,7 +3,7 @@ package training.busboard.requests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.jackson.JacksonFeature;
-import training.busboard.models.IncomingBus;
+import training.busboard.models.Bus;
 import training.busboard.models.StopPointBusData;
 
 import javax.ws.rs.client.Client;
@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ArrivalEstimationRequest {
+public class BusesFromStopcodeRequests {
     private static Logger LOGGER = LogManager.getLogger();
 
-    public static List<IncomingBus> requestNextBuses(String stopCode) {
+    public List<Bus> requestNextBuses(String stopcode) {
         Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 
         LOGGER.debug("Sending request from requestNextBuses().");
-        Stream<IncomingBus> nextBuses = client.target("https://api.tfl.gov.uk/StopPoint/{stopCode}/Arrivals")
-                .resolveTemplate("stopCode", stopCode)
+        Stream<Bus> nextBuses = Requests.getTflBaseTarget().path("{stopcode}/Arrivals")
+                .resolveTemplate("stopcode", stopcode)
                 .queryParam("app_id", "25b29ea5")
                 .queryParam("app_key", "ff583ea695e335856a814aedcc475d9c")
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -30,8 +30,6 @@ public class ArrivalEstimationRequest {
                     // Convert to IncomingBuses
                 .stream()
                 .map(StopPointBusData::toBus);
-
-
         client.close();
 
         return nextBuses.collect(Collectors.toList());

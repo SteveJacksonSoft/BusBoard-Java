@@ -37,7 +37,7 @@ public class StopPointBusData {
         return stationName;
     }
 
-    public IncomingBus toBus() {
-        return new IncomingBus(lineId, timeToStation, stationName);
+    public Bus toBus() {
+        return new Bus(lineId, timeToStation, stationName);
     }
 }

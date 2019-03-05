@@ -5,19 +5,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IncomingBus {
+public class Bus {
     private static Logger LOGGER = LogManager.getLogger();
     private String lineId;
     private int secondsUntilArrival;
     private String stopName;
 
-    public IncomingBus(String lineId, int secondsUntilArrival, String stopName) {
-        this.lineId = lineId;
+    public Bus(String lineId, int secondsUntilArrival, String stopName) {
+        this.lineId = lineId.toUpperCase();
         this.secondsUntilArrival = secondsUntilArrival;
         this.stopName = stopName;
     }
 
-    public int arrivesBefore(IncomingBus otherBus) {
+    public int arrivesBefore(Bus otherBus) {
         if (this.secondsUntilArrival < otherBus.secondsUntilArrival) {
             return -1;
         } else if (this.secondsUntilArrival > otherBus.secondsUntilArrival) {
