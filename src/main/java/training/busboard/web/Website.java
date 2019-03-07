@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @EnableAutoConfiguration
 public class Website {
+    private WebManager webManager = new WebManager();
+    private final int numBusesToPrint = 5;
 
     @RequestMapping("/")
     ModelAndView home() {
@@ -18,7 +20,7 @@ public class Website {
 
     @RequestMapping("/busInfo")
     ModelAndView busInfo(@RequestParam("postcode") String postcode) {
-        return new ModelAndView("info", "busInfo", new BusInfo(postcode)) ;
+        return new ModelAndView("info", "busInfo", webManager.getBusInfoFromPostcode(postcode, numBusesToPrint)) ;
     }
 
     public static void main(String[] args) throws Exception {

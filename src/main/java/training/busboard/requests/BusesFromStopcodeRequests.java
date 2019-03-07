@@ -2,12 +2,9 @@ package training.busboard.requests;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import training.busboard.models.Bus;
 import training.busboard.models.StopPointBusData;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -18,7 +15,6 @@ public class BusesFromStopcodeRequests {
     private static Logger LOGGER = LogManager.getLogger();
 
     public List<Bus> requestNextBuses(String stopcode) {
-        Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 
         LOGGER.debug("Sending request from requestNextBuses().");
         Stream<Bus> nextBuses = Requests.getTflBaseTarget().path("{stopcode}/Arrivals")
@@ -30,7 +26,6 @@ public class BusesFromStopcodeRequests {
                     // Convert to IncomingBuses
                 .stream()
                 .map(StopPointBusData::toBus);
-        client.close();
 
         return nextBuses.collect(Collectors.toList());
     }

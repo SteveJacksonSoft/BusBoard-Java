@@ -1,33 +1,41 @@
-package training.busboard;
+package training.busboard.cli;
 
 import training.busboard.models.Bus;
+import training.busboard.services.ServiceName;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserInterface {
+class UserInterface {
     private Scanner scanner = new Scanner(System.in);
 
-    public void welcome() {
+    void welcome() {
         System.out.println("Welcome to BusBoard!!");
         System.out.println("=====================");
     }
 
-    public String getServiceToRun() {
+    Enum getServiceToRun() {
         System.out.println("Would you like to search for buses by postcode (enter p) or by stopcode (enter s)?");
-        System.out.print("Enter /q/ to quit. > ");
-        String input = scanner.nextLine();
-        try {
-            return this.processInput(input, "[sp]");
-        } catch (InputMismatchException e) {
+        System.out.print("Enter q to quit. > ");
+        String input = scanner.next("[sSpPqQ]").toLowerCase();
+        if (input.equals("")) {
             System.out.println("You have entered an invalid command. Please try again.");
-            return this.getServiceToRun();
+            this.getServiceToRun();
+        }
+        scanner.nextLine();
+        if (input.equals("q")) {
+            this.exit(-1);
+        }
+        if (input.equals("p")) {
+            return ServiceName.POSTCODE_SERVICE;
+        } else {
+            return ServiceName.STOPCODE_SERVICE;
         }
     }
 
-    public String getStopcode() {
+    String getStopcode() {
         System.out.print("Please enter a stop code or enter /q/ to quit. > ");
         String input = scanner.nextLine().trim().toLowerCase();
         try {
@@ -38,7 +46,7 @@ public class UserInterface {
         }
     }
 
-    public String getPostcode() {
+    String getPostcode() {
         System.out.print("Please enter a postcode or enter /q/ to quit. > ");
         String input = scanner.nextLine().trim().toLowerCase();
         try {
@@ -51,11 +59,11 @@ public class UserInterface {
         }
     }
 
-    public void printBuses(List<Bus> nextBuses) {
-        nextBuses.forEach(System.out::println);
+    void printBuses(List<Bus> nextBuses) {
+        nextBuses.forEach(bus -> System.out.println(bus.writeETA()));
     }
 
-    public boolean shouldContinue() {
+    boolean shouldContinue() {
         System.out.print("Would you like to run a new service (y/n)? > ");
         String input = scanner.nextLine().trim().toLowerCase();
         if (input.equals("y")) {
@@ -68,11 +76,11 @@ public class UserInterface {
         }
     }
 
-    public void complain() {
+    void complain() {
         System.out.println("You have entered invalid input.");
     }
 
-    public void exit(int status) {
+    void exit(int status) {
         System.out.println("Programme closing.");
         System.exit(status);
     }

@@ -1,28 +1,29 @@
-package training.busboard;
+package training.busboard.cli;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import training.busboard.models.Bus;
 import training.busboard.services.NextBusesByPostcodeService;
 import training.busboard.services.NextBusesByStopcodeService;
+import training.busboard.services.ServiceName;
 
 import java.util.List;
 
-public class Manager {
+public class DataManager {
     private static Logger LOGGER = LogManager.getLogger();
     private final int numBusesToPrint = 5;
     private UserInterface ui = new UserInterface();
 
-    public void run() {
+    void run() {
         ui.welcome();
         this.runService();
     }
 
     private void runService() {
-        String serviceCode = ui.getServiceToRun();
-        if (serviceCode.equals("s")) {
+        Enum serviceName = ui.getServiceToRun();
+        if (serviceName == ServiceName.STOPCODE_SERVICE) {
             this.runNextBusesByStopcodeService();
-        } else if (serviceCode.equals("p")) {
+        } else if (serviceName == ServiceName.POSTCODE_SERVICE) {
             this.runNextBusesByPostcodeService();
         } else {
             ui.complain();
@@ -46,7 +47,7 @@ public class Manager {
         String inputPostcode = ui.getPostcode();
         LOGGER.debug("Received post code: " + inputPostcode);
         try {
-            List<Bus> nextBuses = new NextBusesByPostcodeService().getNextBuses(inputPostcode, numBusesToPrint);
+            List<Bus> nextBuses = NextBusesByPostcodeService.getNextBuses(inputPostcode, numBusesToPrint);
             ui.printBuses(nextBuses);
         } catch (Exception e) {
             LOGGER.error("Exception thrown whilst requesting postcode information", e);
@@ -54,4 +55,10 @@ public class Manager {
             return;
         }
     }
+
+    public String[] getNextBusesFromPostcodeWeb(String postcode, int numBusesToPrint) {
+        List<Bus> buses = NextBusesByPostcodeService.getNextBuses(postcode, numBusesToPrint);
+        return buses.subList(0, numBusesToPrint).stream().map(Bus::writeETA).toArray(String[]::new);
+    }
+
 }

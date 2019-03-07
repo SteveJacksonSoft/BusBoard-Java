@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import training.busboard.models.Position;
 import training.busboard.models.StopPoint;
 
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -24,8 +23,8 @@ public class StopPointsFromPositionRequests  {
                 .queryParam("returnLines", "true")
                 .queryParam("lat", position.getLatitude())
                 .queryParam("lon", position.getLongitude())
-                .queryParam("app_id", Requests.getAppId())
-                .queryParam("app_key", Requests.getAppKey())
+                .queryParam("app_id", Requests.getTflAppId())
+                .queryParam("app_key", Requests.getTflAppKey())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
         return response.readEntity(StopPointsResult.class).getStopPoints();

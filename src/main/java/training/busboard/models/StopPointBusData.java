@@ -15,13 +15,6 @@ public class StopPointBusData {
 
     public StopPointBusData() {}
 
-//    public StopPointBusData(String naptanId, String lineId, String expectedArrival, String stationName) {
-//        this.naptanId = naptanId;
-//        this.lineId = lineId;
-//        this.expectedArrival = expectedArrival;
-//        this.stationName = stationName;
-//    }
-
     public String getNaptanId() {
         return naptanId;
     }

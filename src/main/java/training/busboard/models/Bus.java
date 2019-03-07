@@ -19,11 +19,11 @@ public class Bus {
         this.destinationName = destinationName;
     }
 
-    public int arrivesBefore(Bus otherBus) {
-        return Integer.compare(this.secondsUntilArrival, otherBus.secondsUntilArrival);
+    public int getSecondsUntilArrival() {
+        return secondsUntilArrival;
     }
 
-    public String toString() {
+    public String writeETA() {
         String output;
 
         LOGGER.debug("Writing output string for bus ");
