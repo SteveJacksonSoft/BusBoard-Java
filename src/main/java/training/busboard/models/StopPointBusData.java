@@ -11,6 +11,7 @@ public class StopPointBusData {
     private String lineId;
     private int timeToStation;
     private String stationName;
+    private String destinationName;
 
     public StopPointBusData() {}
 
@@ -37,7 +38,11 @@ public class StopPointBusData {
         return stationName;
     }
 
+    public String getDestinationName() {
+        return destinationName;
+    }
+
     public Bus toBus() {
-        return new Bus(lineId, timeToStation, stationName);
+        return new Bus(lineId, timeToStation, stationName, destinationName);
     }
 }

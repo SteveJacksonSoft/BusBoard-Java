@@ -2,6 +2,7 @@ package training.busboard;
 
 import training.busboard.models.Bus;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -21,8 +22,8 @@ public class UserInterface {
         try {
             return this.processInput(input, "[sp]");
         } catch (InputMismatchException e) {
-            System.out.println("You have entered an invalid postcode. Please try again.");
-            return this.getPostcode();
+            System.out.println("You have entered an invalid command. Please try again.");
+            return this.getServiceToRun();
         }
     }
 
@@ -40,24 +41,14 @@ public class UserInterface {
     public String getPostcode() {
         System.out.print("Please enter a postcode or enter /q/ to quit. > ");
         String input = scanner.nextLine().trim().toLowerCase();
-
         try {
-            return this.processInput(input, "\\w{1,2}\\d{1,2}\\s+\\d\\w\\w");
+            String processedInput = this.processInput(input, "\\w{1,2}\\d{1,2}\\s+\\d\\w\\w");
+            System.out.println("Getting buses for " + processedInput.toUpperCase());
+            return processedInput;
         } catch (InputMismatchException e) {
             System.out.println("You have entered an invalid postcode. Please try again.");
             return this.getPostcode();
         }
-    }
-
-    private String processInput(String input, String regex) throws InputMismatchException {
-        if (!input.matches(regex)) {
-            if (input.equals("/q/")) {
-                this.exit(-1);
-            } else {
-                throw new InputMismatchException("Invalid input given.");
-            }
-        }
-        return input;
     }
 
     public void printBuses(List<Bus> nextBuses) {
@@ -65,7 +56,7 @@ public class UserInterface {
     }
 
     public boolean shouldContinue() {
-        System.out.println("Would you like to run a new service (y/n)?");
+        System.out.print("Would you like to run a new service (y/n)? > ");
         String input = scanner.nextLine().trim().toLowerCase();
         if (input.equals("y")) {
             return true;
@@ -84,5 +75,16 @@ public class UserInterface {
     public void exit(int status) {
         System.out.println("Programme closing.");
         System.exit(status);
+    }
+
+    private String processInput(String input, String regex) throws InputMismatchException {
+        if (!input.matches(regex)) {
+            if (input.equals("/q/")) {
+                this.exit(-1);
+            } else {
+                throw new InputMismatchException("Invalid input given.");
+            }
+        }
+        return input;
     }
 }
