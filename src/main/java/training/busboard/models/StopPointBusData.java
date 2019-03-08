@@ -1,12 +1,9 @@
 package training.busboard.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StopPointBusData {
-    private static Logger LOGGER = LogManager.getLogger();
     private String naptanId;
     private String lineId;
     private int timeToStation;

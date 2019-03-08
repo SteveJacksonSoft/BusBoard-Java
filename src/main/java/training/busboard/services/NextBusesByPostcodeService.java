@@ -1,7 +1,5 @@
 package training.busboard.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import training.busboard.exceptionUtil.PostcodeRequestException;
 import training.busboard.exceptionUtil.TflRequestException;
 import training.busboard.exceptionUtil.TflRequestRuntimeException;
@@ -18,9 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class NextBusesByPostcodeService {
-    private static Logger LOGGER = LogManager.getLogger();
-
-    public static List<Bus> getNextBuses(String postcode, int numToGet) throws PostcodeRequestException, TflRequestException, TflRequestRuntimeException {
+    public static List<Bus> getNextBuses(String postcode, int numToGet) throws PostcodeRequestException, TflRequestException {
         try {
             Position pos = new PositionFromPostcodeRequest().requestPosition(postcode);
 
