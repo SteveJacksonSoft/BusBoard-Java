@@ -1,13 +1,11 @@
-package training.busboard;
+package training.busboard.cli;
 
 public class Main {
     public static void main(String args[]) {
         System.out.println("App started.");
 
-        Manager manager = new Manager();
+        DataManager dataManager = new DataManager();
 
-        manager.run();
-
-        // Your code here!
+        dataManager.run();
     }
 }	

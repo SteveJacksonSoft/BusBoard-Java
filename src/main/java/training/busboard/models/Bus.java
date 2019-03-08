@@ -10,40 +10,36 @@ public class Bus {
     private String lineId;
     private int secondsUntilArrival;
     private String stopName;
+    private String destinationName;
 
-    public Bus(String lineId, int secondsUntilArrival, String stopName) {
+    public Bus(String lineId, int secondsUntilArrival, String stopName, String destinationName) {
         this.lineId = lineId.toUpperCase();
         this.secondsUntilArrival = secondsUntilArrival;
         this.stopName = stopName;
+        this.destinationName = destinationName;
     }
 
-    public int arrivesBefore(Bus otherBus) {
-        if (this.secondsUntilArrival < otherBus.secondsUntilArrival) {
-            return -1;
-        } else if (this.secondsUntilArrival > otherBus.secondsUntilArrival) {
-            return 1;
-        } else {
-            return 0;
-        }
+    public int getSecondsUntilArrival() {
+        return secondsUntilArrival;
     }
 
-    public String toString() {
+    public String writeETA() {
         String output;
 
         LOGGER.debug("Writing output string for bus ");
         int[] arrivalTime = this.getTimeInHMS(secondsUntilArrival);
         if (arrivalTime[0] != 0) {
-            output = String.format("Bus %s will arrive at %s in %dh, %2dm and %2ds.",
-                    this.lineId, this.stopName, arrivalTime[0], arrivalTime[1], arrivalTime[2]);
+            output = String.format("%-3s to %-25s will arrive at %s in %dh, %2dm and %2ds.",
+                    this.lineId, this.destinationName, this.stopName, arrivalTime[0], arrivalTime[1], arrivalTime[2]);
         } else if (arrivalTime[1] != 0) {
-            output = String.format("Bus %s will arrive at %s in %2dm and %2ds.",
-                    this.lineId, this.stopName, arrivalTime[1], arrivalTime[2]);
+            output = String.format("%-3s to %-25s will arrive at %s in %2dm and %2ds.",
+                    this.lineId, this.destinationName, this.stopName, arrivalTime[1], arrivalTime[2]);
         } else if (arrivalTime[2] != 0) {
-            output = String.format("Bus %s will arrive at %s in %2ds.",
-                    this.lineId, this.stopName, arrivalTime[2]);
+            output = String.format("%-3s to %-25s will arrive at %s in %2ds.",
+                    this.lineId, this.destinationName, this.stopName, arrivalTime[2]);
         } else {
-            output = String.format("Bus %s is due to arrive at %s immediately.",
-                    this.lineId, this.stopName);
+            output = String.format("%-3s to %-25s is due to arrive at %s immediately.",
+                    this.lineId, this.destinationName, this.stopName);
         }
 
         return output;
