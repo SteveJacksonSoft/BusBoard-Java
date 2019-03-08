@@ -16,7 +16,7 @@ class UserInterface {
         System.out.println("=====================");
     }
 
-    Enum getServiceToRun() {
+    ServiceName getServiceToRun() {
         System.out.println("Would you like to search for buses by postcode (enter p) or by stopcode (enter s)?");
         System.out.print("Enter q to quit. > ");
         String input = scanner.next("[sSpPqQ]").toLowerCase();
@@ -78,6 +78,11 @@ class UserInterface {
 
     void complain() {
         System.out.println("You have entered invalid input.");
+    }
+
+    void breakBadNews(String message) {
+        System.out.println("A problem occurred when processing your request.");
+        System.out.println("Error message: " + message);
     }
 
     void exit(int status) {

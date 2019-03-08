@@ -7,6 +7,13 @@
 </head>
 <body>
 <div layout:fragment="content" class="container body-content">
+    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${indexInfo.isError()}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Error! </strong>
+        <span th:text="${indexInfo.errorMessage}"></span>
+    </div>
     <div class="jumbotron">
         <h1>BusBoard</h1>
         <p class="lead">For all your bus info needs. Enter a postcode below and click enter to see bus times for that location.</p>

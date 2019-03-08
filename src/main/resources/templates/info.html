@@ -10,7 +10,8 @@
     <h2>Bus Information</h2>
     <div>
         <p>You entered postcode <span th:text="${busInfo.postcode}"></span></p>
-        <p th:each="line: ${busInfo.linesOfBusETA}"> <span th:text="${line}"></span></p>
+        <p th:each="bus: ${busInfo.buses}"> <span th:text="${bus.writeETA()}"></span></p>
+        <p th:if="${busInfo.buses.size() == 0}"> No buses were found at this postcode.</p>
     </div>
 </div>
 </body>
